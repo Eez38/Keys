@@ -157,6 +157,8 @@ public class Controller implements Initializable{
             id.setText(String.valueOf(keyIDChoice.getSelectionModel().getSelectedItem().getKeyID()));
         }
 
+        //TODO - Submit should not accept if there is any punctuation
+
 //        String s1 = name.getText();
 //        boolean m1 = name.getText().matches("[.'\"()]*") ;
 //        boolean m2 = description.getText().matches(punctuation);
@@ -203,6 +205,9 @@ public class Controller implements Initializable{
         submitKey.defaultButtonProperty().bind(submitKey.focusedProperty());
         ((Node)(event.getSource())).getScene().getWindow().hide();
         //compare new key with keys in database and replace one with the same ID
+
+        //TODO - Submit should refresh viewall page (and check in and out)
+
     }
 
     @FXML public void handleCheckInSubmitButtonAction(){
@@ -235,6 +240,8 @@ public class Controller implements Initializable{
         if(!takeKeyComboBox.getSelectionModel().isEmpty() && !firstName.getText().isEmpty() && firstName.getText()!=null && !lastName.getText().isEmpty() && lastName.getText()!=null && !contactNumber.getText().isEmpty() && contactNumber.getText()!=null){
 
 
+            //TODO - Submit should not accept if there is any punctuation
+
 //            if(firstName.getText().matches(punctuation) && lastName.getText().matches(punctuation)){
 //                Alert alert = new Alert(Alert.AlertType.WARNING);
 //                alert.setTitle("Warning Dialog");
@@ -252,7 +259,6 @@ public class Controller implements Initializable{
             }
             else {
                 String name = firstName.getText() + " " + lastName.getText();
-//                long number = Long.parseLong(contactNumber.getText());
                 String number = contactNumber.getText();
                 for (Key key : keyList) {
                     if (takeKeyComboBox.getSelectionModel().getSelectedItem().getKeyID() == key.getKeyID()) {
@@ -287,12 +293,9 @@ public class Controller implements Initializable{
 
         stackPane.getChildren().clear();
         stackPane.getChildren().add(checkinAnchor);
-//        anchorPane.getChildren().setAll(checkinAnchor);
         ComboBox<Key> returnKeyComboBox = (ComboBox) checkinAnchor.lookup("#returnKeyComboBox");
         updateKeyLists();
         returnKeyComboBox.setItems(unavailableKeyList);
-//        Label thanksLabel = (Label) checkinAnchor.getScene().lookup("#thanksLabel");
-//        thanksLabel.setVisible(false);
     }
 
     @FXML public void handleCheckOutButtonAction(){
@@ -306,7 +309,6 @@ public class Controller implements Initializable{
 
         stackPane.getChildren().clear();
         stackPane.getChildren().add(checkoutAnchor);
-//        anchorPane.getChildren().setAll(checkoutAnchor);
         ComboBox<Key> takeKeyComboBox = (ComboBox) checkoutAnchor.lookup("#takeKeyComboBox");
         updateKeyLists();
         takeKeyComboBox.setItems(availableKeyList);
@@ -329,7 +331,6 @@ public class Controller implements Initializable{
 
         stackPane.getChildren().clear();
         stackPane.getChildren().add(viewAllAnchor);
-//        anchorPane.getChildren().setAll(viewAllAnchor);
         viewAllList = (TableView) viewAllAnchor.lookup("#viewAllTable");
         updateKeyLists();
         populateTable();

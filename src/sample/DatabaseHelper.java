@@ -33,6 +33,7 @@ public class DatabaseHelper {
         return connection;
     }
 
+    //TODO Implement another table to hold history log for keys
     public void initialiseTables(){
         try{
             Statement statement = getConnection().createStatement();
