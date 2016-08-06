@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="viewAllAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="495.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <TableView fx:id="viewAllTable" prefHeight="444.0" prefWidth="495.0">
+        <columns>
+          <TableColumn fx:id="idColumn" minWidth="15.0" prefWidth="99.0" text="Key ID" />
+            <TableColumn fx:id="roomNameColumn" prefWidth="99.0" text="Room Name" />
+            <TableColumn fx:id="availableColumn" prefWidth="99.0" text="Availability" />
+            <TableColumn fx:id="currentUserColumn" prefWidth="99.0" text="Current User" />
+            <TableColumn fx:id="viewMoreColumn" prefWidth="99.0" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

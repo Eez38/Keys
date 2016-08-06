@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/logo.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="56.0" layoutY="184.0" text="Product Version: JH Key App 1.0" />
+      <Label layoutX="56.0" layoutY="211.0" prefHeight="28.0" prefWidth="471.0" text="This product uses JavaFX (Java 1.8.0 Oracle Corporation) and is suitable for" wrapText="true" />
+      <Label layoutX="56.0" layoutY="231.0" prefHeight="17.0" prefWidth="471.0" text="use on MacOS and Windows operating systems." />
+      <Label layoutX="56.0" layoutY="264.0" prefHeight="17.0" prefWidth="471.0" text="This product was intended for the use of Jesus House For All Nations only." />
+   </children>
+</Pane>

@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="javafx-preloader" name="splash">
+    <output-path>$PROJECT_DIR$/out/artifacts/splash</output-path>
+    <properties id="javafx-preloader-properties">
+      <options>
+        <option name="preloaderClass" value="JHSplash" />
+      </options>
+    </properties>
+    <root id="archive" name="splash.jar">
+      <element id="module-output" name="SplashScreen" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

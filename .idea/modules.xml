@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Keys.iml" filepath="$PROJECT_DIR$/Keys.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SplashScreen/SplashScreen.iml" filepath="$PROJECT_DIR$/SplashScreen/SplashScreen.iml" />
+    </modules>
+  </component>
+</project>

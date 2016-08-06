@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="javafx-preloader" name="Preloader">
+    <output-path>$PROJECT_DIR$/out/artifacts/Preloader</output-path>
+    <properties id="javafx-preloader-properties">
+      <options>
+        <option name="preloaderClass" value="JHSplash" />
+      </options>
+    </properties>
+    <root id="archive" name="Preloader.jar">
+      <element id="module-output" name="SplashScreen" />
+      <element id="file-copy" path="$PROJECT_DIR$/SplashScreen/images/jesushouse_logo-250x150.jpg" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/SplashScreen/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>
