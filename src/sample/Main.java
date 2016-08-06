@@ -2,17 +2,18 @@ package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Created by Ese Emore (08/2016)
+ */
 public class Main extends Application {
 
     private Stage primaryStage;
-    private Pane mainLayout;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -21,9 +22,6 @@ public class Main extends Application {
 
         initRootLayout();
 
-//        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-//        primaryStage.setScene(new Scene(root, 900, 450));
-//        primaryStage.show();
     }
 
 
@@ -31,19 +29,13 @@ public class Main extends Application {
         try{
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("main_views/main.fxml"));
-//            loader.setController(Controller.class);
-            mainLayout = (Pane) loader.load();
+            Pane mainLayout = loader.load();
             primaryStage.setScene(new Scene(mainLayout));
             primaryStage.show();
         }
         catch (IOException e){
             e.printStackTrace();
         }
-    }
-
-
-    public Stage getPrimaryStage(){
-        return primaryStage;
     }
 
     public static void main(String[] args) {

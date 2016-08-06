@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 
 /**
- * Created by Eez on 12/07/2016.
+ * Created by Ese Emore (08/2016)
  */
 public class DatabaseHelper {
 

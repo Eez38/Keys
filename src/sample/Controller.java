@@ -25,6 +25,9 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Created by Ese Emore (08/2016)
+ */
 public class Controller implements Initializable{
 
     private DatabaseHelper db;
@@ -34,7 +37,7 @@ public class Controller implements Initializable{
     private Stage popUpStage;
     private Scene scene = null;
 
-    private String punctuation;
+//    private String punctuation;
 
 
     @FXML public StackPane stackPane;
@@ -47,7 +50,7 @@ public class Controller implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        punctuation = ".(_+-.,!@#$%^&*();\\/|<>\"')";
+//        punctuation = ".(_+-.,!@#$%^&*();\\/|<>\"')";
 
         this.db = new DatabaseHelper();
         db.initialiseTables();
@@ -323,10 +326,6 @@ public class Controller implements Initializable{
         }
         catch (IOException e){
             e.printStackTrace();
-        }
-
-        if(stackPane == null){
-
         }
 
         stackPane.getChildren().clear();
