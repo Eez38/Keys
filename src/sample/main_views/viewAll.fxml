@@ -12,7 +12,7 @@
             <TableColumn fx:id="roomNameColumn" prefWidth="99.0" text="Room Name" />
             <TableColumn fx:id="availableColumn" prefWidth="99.0" text="Availability" />
             <TableColumn fx:id="currentUserColumn" prefWidth="99.0" text="Current User" />
-            <TableColumn fx:id="viewMoreColumn" prefWidth="99.0" />
+            <TableColumn fx:id="viewMoreColumn" prefWidth="91.0" />
         </columns>
       </TableView>
    </children>

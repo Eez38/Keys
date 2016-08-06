@@ -46,7 +46,14 @@ public class DatabaseHelper {
                     "CURRENT_HOLDER_NUMBER TEXT, " +
                     "DATE_TAKEN TEXT, " +
                     "QUANTITY INT)";
+            String createHistoryTables = "CREATE TABLE IF NOT EXISTS HISTORY " +
+                    "(ID INT PRIMARY KEY NOT NULL, " +
+                    "CURRENT_HOLDER_NAME TEXT, " +
+                    "CURRENT_HOLDER_NUMBER TEXT, " +
+                    "DATE_TAKEN TEXT, " +
+                    "DATE_RETURNED TEXT)";
             statement.execute(createTables);
+            statement.execute(createHistoryTables);
             statement.close();
         }
         catch (SQLException e){
@@ -61,6 +68,20 @@ public class DatabaseHelper {
                     "VALUES (" + key.getKeyID() + ", '" + key.getKeyRoomName() +
                     "', '" + key.getKeyRoomDescription() + "', 'Yes', '" + key.getQuantity() + "' );";
             statement.executeUpdate(addKey);
+            statement.close();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void addHistoryToDatabase(Key key){
+        try{
+            Statement statement = getConnection().createStatement();
+            String addHistory = "INSERT INTO HISTORY (ID,CURRENT_HOLDER_NAME,CURRENT_HOLDER_NUMBER,DATE_TAKEN,DATE_RETURNED) " +
+                    "VALUES (" + key.getKeyID() + ", '" + key.getCurrentHolderName() +
+                    "', '" + key.getCurrentHolderNumber() + "', '" + key.getDateTaken() + "', '" + key.getDateReturned() + "' );";
+            statement.executeUpdate(addHistory);
             statement.close();
         }
         catch (SQLException e){
@@ -112,7 +133,11 @@ public class DatabaseHelper {
                     ", CURRENT_HOLDER_NUMBER = '0'" +
                     ", DATE_TAKEN = NULL" +
                     " WHERE ID = " + key.getKeyID() + ";";
+            String addHistory = "INSERT INTO HISTORY (ID,CURRENT_HOLDER_NAME,CURRENT_HOLDER_NUMBER,DATE_TAKEN,DATE_RETURNED) " +
+                    "VALUES (" + key.getKeyID() + ", '" + key.getCurrentHolderName() +
+                    "', '" + key.getCurrentHolderNumber() + "', '" + key.getDateTaken() + "', '" + key.getDateReturned() + "' );";
             statement.executeUpdate(checkin);
+            statement.executeUpdate(addHistory);
             statement.close();
         }
         catch (SQLException e){
@@ -183,6 +208,28 @@ public class DatabaseHelper {
             e.printStackTrace();
         }
         return keysList;
+    }
+
+    public ObservableList<Key> getHistoryOfKey(Key key){
+        ObservableList<Key> historyList = FXCollections.observableArrayList();
+        try{
+            Statement statement = getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM HISTORY WHERE ID = " + key.getKeyID() + ";");
+            while (resultSet.next()){
+                Key k = key;
+                if(resultSet.getString("current_holder_name")!=null && resultSet.getString("date_taken")!=null) {
+                    k.borrowKey(resultSet.getString("current_holder_name"), resultSet.getString("current_holder_number"), resultSet.getString("date_taken"));
+                    k.setDateReturned(resultSet.getString("date_returned"));
+                }
+                historyList.add(k);
+            }
+            resultSet.close();
+            statement.close();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return historyList;
     }
 
 }

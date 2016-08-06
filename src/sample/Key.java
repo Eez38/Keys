@@ -14,6 +14,7 @@ public class Key {
     public StringProperty currentHolderName;
     public StringProperty currentHolderNumber;
     public StringProperty dateTaken;
+    public StringProperty dateReturned;
     public IntegerProperty quantity;
 
     public Key(int keyID, String keyRoomName){
@@ -25,6 +26,7 @@ public class Key {
         this.currentHolderName =  new SimpleStringProperty();
         this.currentHolderNumber = new SimpleStringProperty();
         this.dateTaken =  new SimpleStringProperty();
+        this.dateReturned =  new SimpleStringProperty();
         this.quantity = new SimpleIntegerProperty(0);
     }
 
@@ -56,6 +58,10 @@ public class Key {
         return dateTaken.get();
     }
 
+    public String getDateReturned() {
+        return dateReturned.get();
+    }
+
     public int getQuantity() {
         return quantity.get();
     }
@@ -77,6 +83,10 @@ public class Key {
 
     public void setQuantity(int quantity){
         this.quantity.set(quantity);
+    }
+
+    public void setDateReturned(String dateReturned) {
+        this.dateReturned.set(dateReturned);
     }
 
     public void borrowKey(String name, String number, String date){

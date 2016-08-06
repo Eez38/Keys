@@ -47,6 +47,7 @@ public class Controller implements Initializable{
     @FXML private Button updateKey;
     @FXML private Button deleteKey;
     @FXML private TableView<Key> viewAllList;
+    @FXML private TableView<Key> viewHistoryTable;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -222,6 +223,7 @@ public class Controller implements Initializable{
             if(key.getKeyID() == returnKeyComboBox.getSelectionModel().getSelectedItem().getKeyID()){
                 nameLabel.setText(key.getCurrentHolderName());
                 key.toggleAvailability();
+                key.setDateReturned(LocalDate.now().toString());
                 db.checkInKey(key);
                 thanksLabel.setVisible(true);
                 checkInSubmit.setVisible(false);
@@ -371,17 +373,6 @@ public class Controller implements Initializable{
                 @Override public void updateItem(String item, boolean empty){
                     setText("View More");
                     setStyle("-fx-underline: true");
-//                    Button button = new Button("View More");
-//                    button.setAlignment(Pos.CENTER);
-//                    setGraphic(button);
-//                    button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//                        @Override
-//                        public void handle(MouseEvent event) {
-//
-////                            handleViewMoreInformation();
-////                            handleViewMoreInformation((Key) getTableRow().getTableView().getSelectionModel().getSelectedItem());
-//                        }
-//                    });
                 }};
                 return cell;
             }
@@ -438,6 +429,15 @@ public class Controller implements Initializable{
             updateKey.setVisible(false);
 
         }
+
+        Button viewHistory = (Button) viewMoreAnchor.lookup("#viewHistory");
+        viewHistory.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                handleViewHistoryAction(key);
+            }
+        });
+
     }
 
     @FXML public void handleUpdateInformationButton(ActionEvent event){
@@ -489,6 +489,72 @@ public class Controller implements Initializable{
         Scene s = ((Node)(event.getSource())).getScene();
         stackPane = (StackPane) s.lookup("#stackPane");
         handleViewAllButtonAction();
+    }
+
+    @FXML public void handleViewHistoryAction(Key key){
+        Key current = new Key(key.getKeyID(), key.getKeyRoomName());
+        current.setKeyRoomDescription(key.getKeyRoomDescription());
+        current.setQuantity(key.getQuantity());
+        if(key.isAvailable().equals("No")){
+            current.borrowKey(key.getCurrentHolderName(), key.getCurrentHolderNumber(), key.getDateTaken());
+            current.setUnavailable();
+        }
+        AnchorPane viewHistoryAnchor = null;
+        try {
+            viewHistoryAnchor = FXMLLoader.load(getClass().getResource("main_views/viewKeyHistory.fxml"));
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+        stackPane.getChildren().clear();
+        stackPane.getChildren().add(viewHistoryAnchor);
+        viewHistoryTable = (TableView) viewHistoryAnchor.lookup("#viewHistoryTable");
+        updateKeyLists();
+        populateHistoryTable(key);
+//        viewAllList.getSelectionModel().selectedItemProperty().addListener();
+
+        Button goBackHistoryButton = (Button) viewHistoryAnchor.lookup("#goBackHistoryButton");
+        goBackHistoryButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                handleViewMoreInformation(current);
+            }
+        });
+
+    }
+
+    private void populateHistoryTable(Key key){
+        TableColumn<Key, Integer> idColumn;
+        TableColumn<Key, String> contactNameColumn;
+        TableColumn<Key, String> contactNumberColumn;
+        TableColumn<Key, String> dateTakenColumn;
+        TableColumn<Key, String> dateReturnedColumn;
+
+        idColumn = (TableColumn<Key, Integer>) viewHistoryTable.getColumns().get(0);
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("keyID"));
+        idColumn.setStyle("-fx-alignment: CENTER-RIGHT;");
+        contactNameColumn = (TableColumn<Key, String>) viewHistoryTable.getColumns().get(1);
+        contactNameColumn.setCellValueFactory(new PropertyValueFactory("currentHolderName"));
+        contactNameColumn.setStyle("-fx-alignment: CENTER-RIGHT;");
+        contactNumberColumn = (TableColumn<Key, String>) viewHistoryTable.getColumns().get(2);
+        contactNumberColumn.setCellValueFactory(new PropertyValueFactory("currentHolderNumber"));
+        contactNumberColumn.setStyle("-fx-alignment: CENTER-RIGHT;");
+        dateTakenColumn = (TableColumn<Key, String>) viewHistoryTable.getColumns().get(3);
+        dateTakenColumn.setCellValueFactory(new PropertyValueFactory("dateTaken"));
+        dateTakenColumn.setStyle("-fx-alignment: CENTER-RIGHT;");
+        dateReturnedColumn = (TableColumn<Key, String>) viewHistoryTable.getColumns().get(4);
+        dateReturnedColumn.setCellValueFactory(new PropertyValueFactory("dateReturned"));
+        dateReturnedColumn.setStyle("-fx-alignment: CENTER-RIGHT;");
+
+        Key current = new Key(key.getKeyID(), key.getKeyRoomName());
+        current.borrowKey(key.getCurrentHolderName(), key.getCurrentHolderNumber(), key.getDateTaken());
+        current.setDateReturned(key.getDateReturned());
+        ObservableList<Key> historyList = db.getHistoryOfKey(key);
+        if(current.isAvailable().equals("No") && !historyList.isEmpty()){
+            historyList.add(current);
+        }
+        viewHistoryTable.setItems(historyList);
     }
 
 }

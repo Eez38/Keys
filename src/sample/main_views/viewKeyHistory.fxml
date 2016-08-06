@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="viewHistoryAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="495.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <TableView fx:id="viewHistoryTable" prefHeight="397.0" prefWidth="489.0">
+        <columns>
+          <TableColumn fx:id="idColumn" minWidth="15.0" prefWidth="90.0" text="Key ID" />
+            <TableColumn fx:id="contactNameColumn" prefWidth="99.0" text="Contact Name" />
+            <TableColumn fx:id="contactNumberColumn" prefWidth="99.0" text="Contact No." />
+            <TableColumn fx:id="dateTakenColumn" prefWidth="99.0" text="Date Taken" />
+            <TableColumn fx:id="dateReturnedColumn" prefWidth="99.0" text="Returned" />
+        </columns>
+      </TableView>
+      <Button fx:id="goBackHistoryButton" layoutX="213.0" layoutY="403.0" mnemonicParsing="false" text="Go Back" />
+   </children>
+</AnchorPane>
