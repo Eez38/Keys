@@ -3,7 +3,6 @@ package sample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,12 +11,10 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -188,7 +185,7 @@ public class Controller implements Initializable{
                     key.setQuantity(1);
                 }
                 Key dbKey = db.getKey(keyID);
-                if (dbKey != null) { //If null then key doesnt exist in database
+                if (dbKey != null) { //If null then key doesn't exist in database
                     db.updateKey(key);
                 } else {
                     db.addKeyToDatabase(key);
@@ -287,9 +284,9 @@ public class Controller implements Initializable{
     }
 
     @FXML public void handleCheckInButtonAction(){
-        AnchorPane checkinAnchor = null;
+        AnchorPane checkInAnchor = null;
         try {
-            checkinAnchor = FXMLLoader.load(getClass().getResource("main_views/checkin.fxml"));
+            checkInAnchor = FXMLLoader.load(getClass().getResource("main_views/checkin.fxml"));
 
         }
         catch (IOException e){
@@ -297,8 +294,8 @@ public class Controller implements Initializable{
         }
 
         stackPane.getChildren().clear();
-        stackPane.getChildren().add(checkinAnchor);
-        ComboBox<Key> returnKeyComboBox = (ComboBox) checkinAnchor.lookup("#returnKeyComboBox");
+        stackPane.getChildren().add(checkInAnchor);
+        ComboBox<Key> returnKeyComboBox = (ComboBox) checkInAnchor.lookup("#returnKeyComboBox");
         updateKeyLists();
         returnKeyComboBox.setItems(unavailableKeyList);
     }
@@ -335,13 +332,9 @@ public class Controller implements Initializable{
         viewAllList = (TableView) viewAllAnchor.lookup("#viewAllTable");
         updateKeyLists();
         populateTable();
-//        viewAllList.getSelectionModel().selectedItemProperty().addListener();
-        viewAllList.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if(event.getClickCount() == 2){
-                    handleViewMoreInformation(viewAllList.getSelectionModel().getSelectedItem());
-                }
+        viewAllList.setOnMouseClicked(event -> {
+            if(event.getClickCount() == 2){
+                handleViewMoreInformation(viewAllList.getSelectionModel().getSelectedItem());
             }
         });
     }
@@ -366,17 +359,11 @@ public class Controller implements Initializable{
         currentUserColumn.setCellValueFactory(new PropertyValueFactory("currentHolderName"));
         currentUserColumn.setStyle("-fx-alignment: CENTER-RIGHT;");
         viewMoreColumn = (TableColumn<Key, String>) viewAllList.getColumns().get(4);
-        viewMoreColumn.setCellFactory(new Callback<TableColumn<Key, String>, TableCell<Key, String>>() {
-            @Override
-            public TableCell<Key, String> call(TableColumn<Key, String> param) {
-                TableCell<Key, String> cell = new TableCell<Key, String>(){
-                @Override public void updateItem(String item, boolean empty){
-                    setText("View More");
-                    setStyle("-fx-underline: true");
-                }};
-                return cell;
-            }
-        });
+        viewMoreColumn.setCellFactory(param -> new TableCell<Key, String>(){
+        @Override public void updateItem(String item, boolean empty){
+            setText("View More");
+            setStyle("-fx-underline: true");
+        }});
         viewAllList.setItems(keyList);
     }
 
@@ -391,14 +378,13 @@ public class Controller implements Initializable{
 
         stackPane.getChildren().clear();
         stackPane.getChildren().add(viewMoreAnchor);
-//        anchorPane.getChildren().setAll(viewMoreAnchor);
 
         Label idLabel = (Label) viewMoreAnchor.lookup("#idLabel");
         idLabel.setText(String.valueOf(key.getKeyID()));
         Label roomNameLabel = (Label) viewMoreAnchor.lookup("#roomNameLabel");
         roomNameLabel.setText(key.getKeyRoomName());
         Label roomDescLabel = (Label) viewMoreAnchor.lookup("#roomDescLabel");
-        if(!key.getKeyRoomDescription().equals("null")){
+        if (!key.getKeyRoomDescription().equals("null")) {
             roomDescLabel.setText(key.getKeyRoomDescription());
         }
         Label quantityLabel = (Label) viewMoreAnchor.lookup("#quantityLabel");
@@ -410,12 +396,11 @@ public class Controller implements Initializable{
         TextField userNameLabel = (TextField) viewMoreAnchor.lookup("#userNameLabel");
         TextField contactNoLabel = (TextField) viewMoreAnchor.lookup("#contactNoLabel");
         DatePicker dateLabel = (DatePicker) viewMoreAnchor.lookup("#dateLabel");
-        if(key.isAvailable().equals("No")) {
+        if (key.isAvailable().equals("No")) {
             userNameLabel.setText(key.getCurrentHolderName());
             contactNoLabel.setText(key.getCurrentHolderNumber());
             dateLabel.setValue(LocalDate.of(Integer.parseInt(key.getDateTaken().split("-")[0]), Integer.parseInt(key.getDateTaken().split("-")[1]), Integer.parseInt(key.getDateTaken().split("-")[2])));
-        }
-        else{
+        } else {
             userNameLabel.setVisible(false);
             contactNoLabel.setVisible(false);
             dateLabel.setVisible(false);
@@ -431,13 +416,7 @@ public class Controller implements Initializable{
         }
 
         Button viewHistory = (Button) viewMoreAnchor.lookup("#viewHistory");
-        viewHistory.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                handleViewHistoryAction(key);
-            }
-        });
-
+        viewHistory.setOnMouseClicked(event -> handleViewHistoryAction(key));
     }
 
     @FXML public void handleUpdateInformationButton(ActionEvent event){
@@ -512,15 +491,9 @@ public class Controller implements Initializable{
         viewHistoryTable = (TableView) viewHistoryAnchor.lookup("#viewHistoryTable");
         updateKeyLists();
         populateHistoryTable(key);
-//        viewAllList.getSelectionModel().selectedItemProperty().addListener();
 
         Button goBackHistoryButton = (Button) viewHistoryAnchor.lookup("#goBackHistoryButton");
-        goBackHistoryButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                handleViewMoreInformation(current);
-            }
-        });
+        goBackHistoryButton.setOnMouseClicked(event -> handleViewMoreInformation(current));
 
     }
 
@@ -551,7 +524,7 @@ public class Controller implements Initializable{
         current.borrowKey(key.getCurrentHolderName(), key.getCurrentHolderNumber(), key.getDateTaken());
         current.setDateReturned(key.getDateReturned());
         ObservableList<Key> historyList = db.getHistoryOfKey(key);
-        if(current.isAvailable().equals("No") && !historyList.isEmpty()){
+        if(current.getCurrentHolderName() != null){
             historyList.add(current);
         }
         viewHistoryTable.setItems(historyList);

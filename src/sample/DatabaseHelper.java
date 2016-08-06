@@ -47,8 +47,9 @@ public class DatabaseHelper {
                     "DATE_TAKEN TEXT, " +
                     "QUANTITY INT)";
             String createHistoryTables = "CREATE TABLE IF NOT EXISTS HISTORY " +
-                    "(ID INT PRIMARY KEY NOT NULL, " +
-                    "CURRENT_HOLDER_NAME TEXT, " +
+                    "(H_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "ID INT NOT NULL, " +
+                    "CURRENT_HOLDER_NAME TEXT NOT NULL, " +
                     "CURRENT_HOLDER_NUMBER TEXT, " +
                     "DATE_TAKEN TEXT, " +
                     "DATE_RETURNED TEXT)";
