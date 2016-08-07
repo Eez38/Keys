@@ -3,6 +3,7 @@ package sample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
@@ -45,7 +47,13 @@ public class Controller implements Initializable{
     @FXML private Button deleteKey;
     @FXML private TableView<Key> viewAllList;
     @FXML private TableView<Key> viewHistoryTable;
+    @FXML private Button logInButton;
+    @FXML private Button guestButton;
+    @FXML private Button logoutButon;
 
+//    TextField usernameField;
+//    PasswordField passwordField;
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 //        punctuation = ".(_+-.,!@#$%^&*();\\/|<>\"')";
@@ -56,6 +64,20 @@ public class Controller implements Initializable{
         this.unavailableKeyList = FXCollections.observableArrayList();
         this.availableKeyList = FXCollections.observableArrayList();
         updateKeyLists();
+
+//        logInButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//
+//            }
+//        });
+//
+//        guestButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//
+//            }
+//        });
     }
 
     private void updateKeyLists(){
