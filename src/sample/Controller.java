@@ -35,6 +35,7 @@ public class Controller implements Initializable{
     private ObservableList<Key> availableKeyList;
     private Stage popUpStage;
     private Scene scene = null;
+    private boolean admin = false;
 
 //    private String punctuation;
 
@@ -53,7 +54,13 @@ public class Controller implements Initializable{
 
 //    TextField usernameField;
 //    PasswordField passwordField;
-    
+
+    //TODO login button should take user back to login page
+    //TODO guest button should take user to main view with guest restrictions (admin = false)
+    //TODO logout button should take user to main view with no restrictions (admin = true)
+    //TODO Application should start on login page.
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 //        punctuation = ".(_+-.,!@#$%^&*();\\/|<>\"')";
