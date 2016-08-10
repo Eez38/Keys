@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="instructionPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Check Out Key">
+               <content>
+                  <AnchorPane fx:id="checkOutPane" minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="600.0">
+                     <children>
+                        <VBox layoutX="10.0" layoutY="221.0" prefHeight="146.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <Label prefHeight="20.0" prefWidth="258.0" text="Check Out Key: " wrapText="true" GridPane.columnIndex="1">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="25.0" prefWidth="614.0" text="1. Click on the check out icon on the left." wrapText="true" GridPane.columnIndex="1" />
+                              <Label prefHeight="42.0" prefWidth="590.0" text="2. Select desired key from drop down list or enter the key number or room name of the desired key." wrapText="true" />
+                              <Label prefHeight="25.0" prefWidth="590.0" text="3. Enter your details in the form provided." wrapText="true" />
+                              <Label prefHeight="25.0" prefWidth="590.0" text="4. Click on the submit button to complete check out." wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <ImageView fx:id="checkOutGif" fitHeight="206.0" fitWidth="315.0" layoutX="143.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </AnchorPane>
+               </content>
+          </Tab>
+          <Tab text="Check In Key">
+               <content>
+                  <AnchorPane fx:id="checkInPane" minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="600.0">
+                     <children>
+                        <VBox layoutX="10.0" layoutY="10.0" prefHeight="119.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <Label prefHeight="20.0" prefWidth="258.0" text="Check In Key: " wrapText="true" GridPane.columnIndex="1">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="25.0" prefWidth="623.0" text="1. Click on the check in icon on the left." GridPane.columnIndex="1" />
+                              <Label prefHeight="25.0" prefWidth="580.0" text="2. Select desired key from drop down list." wrapText="true" />
+                              <Label prefHeight="25.0" prefWidth="580.0" text="3. Click on the submit button to complete check in." wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <ImageView fx:id="checkInGif" fitHeight="220.0" fitWidth="324.0" layoutX="138.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </AnchorPane>
+               </content>
+          </Tab>
+            <Tab text="View More Key Info">
+               <content>
+                  <AnchorPane fx:id="editPane" minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="600.0">
+                     <children>
+                        <ImageView fx:id="viewMoreGif" fitHeight="220.0" fitWidth="315.0" layoutX="143.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="139.0" AnchorPane.leftAnchor="143.0" AnchorPane.topAnchor="8.0" />
+                        <VBox prefHeight="194.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <Label prefHeight="46.0" prefWidth="110.0" text="View More Key Information:" wrapText="true" GridPane.columnIndex="1">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="25.0" prefWidth="672.0" text="1. Click on the view all icon on the left." wrapText="true" GridPane.columnIndex="1" />
+                              <Label prefHeight="25.0" prefWidth="662.0" text="2. Double click on the desired key from the table." wrapText="true" />
+                              <Label prefHeight="54.0" prefWidth="590.0" text="From this page you can edit the details for the current holder of the selected key. You can also delete the key from the database. Click submit to save any changes. " wrapText="true" />
+                              <Label prefHeight="25.0" prefWidth="648.0" text="To view the history of the key, click on the view history button." wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Edit Key">
+               <content>
+                  <AnchorPane fx:id="viewMorePane" minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="600.0">
+                     <children>
+                        <ImageView fx:id="editGif" fitHeight="206.0" fitWidth="315.0" layoutX="143.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+                        <VBox prefHeight="144.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <Label prefHeight="20.0" prefWidth="258.0" text="Edit Key Details: " wrapText="true" GridPane.columnIndex="1">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="25.0" prefWidth="618.0" text="1. From the menu bar, select the edit option." wrapText="true" GridPane.columnIndex="1" />
+                              <Label prefHeight="25.0" prefWidth="661.0" text="2. Choose Edit Key from the drop down list." wrapText="true" />
+                              <Label prefHeight="25.0" prefWidth="699.0" text="3. Select the desired key from the drop down list." wrapText="true" />
+                              <Label prefHeight="25.0" prefWidth="590.0" text="4. Change the details as necessary." wrapText="true" />
+                              <Label prefHeight="25.0" prefWidth="680.0" text="5. Click on the submit buttom to complete editing." wrapText="true" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

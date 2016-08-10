@@ -1,12 +1,9 @@
 package sample;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,7 +12,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -145,6 +146,32 @@ public class Controller implements Initializable{
             e.printStackTrace();
         }
         stage.setTitle("About");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML public void handleMenuInstructions(){
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        Scene scene = null;
+        try {
+            scene = new Scene(FXMLLoader.load(getClass().getResource("menu_views/instructions.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        TabPane instructionStack = (TabPane) scene.lookup("#instructionPane");
+        ImageView checkOutGif = (ImageView) scene.lookup("#checkOutGif");
+        ImageView checkInGif = (ImageView) scene.lookup("#checkInGif");
+        ImageView viewMoreGif = (ImageView) scene.lookup("#viewMoreGif");
+        ImageView editGif = (ImageView) scene.lookup("#editGif");
+
+        checkOutGif.setImage(new Image(Main.class.getResourceAsStream("images/checkout.gif")));
+        checkInGif.setImage(new Image(Main.class.getResourceAsStream("images/checkin.gif")));
+        viewMoreGif.setImage(new Image(Main.class.getResourceAsStream("images/viewHistory.gif")));
+        editGif.setImage(new Image(Main.class.getResourceAsStream("images/editKey.gif")));
+
+        stage.setTitle("Instructions");
         stage.setScene(scene);
         stage.show();
     }
