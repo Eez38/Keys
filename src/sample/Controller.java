@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -239,7 +241,15 @@ public class Controller implements Initializable{
         TextField contactNumber = (TextField) checkOutSubmit.getScene().lookup("#contactText");
         DatePicker date = (DatePicker) checkOutSubmit.getScene().lookup("#datePicker");
         Label thanksLabel = (Label) checkOutSubmit.getScene().lookup("#thanksLabel");
-        if(!takeKeyComboBox.getSelectionModel().isEmpty() && !firstName.getText().isEmpty() && firstName.getText()!=null && !lastName.getText().isEmpty() && lastName.getText()!=null && !contactNumber.getText().isEmpty() && contactNumber.getText()!=null){
+
+
+        takeKeyComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+
+        });
+
+        if(!takeKeyComboBox.getSelectionModel().isEmpty() && takeKeyComboBox.getSelectionModel()!=null && !firstName.getText().isEmpty() &&
+                firstName.getText()!=null && !lastName.getText().isEmpty() && lastName.getText()!=null &&
+                !contactNumber.getText().isEmpty() && contactNumber.getText()!=null){
 
 
             //TODO - Submit should not accept if there is any punctuation
@@ -295,6 +305,10 @@ public class Controller implements Initializable{
 
         stackPane.getChildren().clear();
         stackPane.getChildren().add(checkInAnchor);
+
+        checkInAnchor.prefWidthProperty().bind(stackPane.widthProperty());
+        checkInAnchor.prefHeightProperty().bind(stackPane.heightProperty());
+
         ComboBox<Key> returnKeyComboBox = (ComboBox) checkInAnchor.lookup("#returnKeyComboBox");
         updateKeyLists();
         returnKeyComboBox.setItems(unavailableKeyList);
@@ -311,6 +325,10 @@ public class Controller implements Initializable{
 
         stackPane.getChildren().clear();
         stackPane.getChildren().add(checkoutAnchor);
+
+        checkoutAnchor.prefWidthProperty().bind(stackPane.widthProperty());
+        checkoutAnchor.prefHeightProperty().bind(stackPane.heightProperty());
+
         ComboBox<Key> takeKeyComboBox = (ComboBox) checkoutAnchor.lookup("#takeKeyComboBox");
         updateKeyLists();
         takeKeyComboBox.setItems(availableKeyList);
@@ -327,8 +345,12 @@ public class Controller implements Initializable{
             e.printStackTrace();
         }
 
+
         stackPane.getChildren().clear();
         stackPane.getChildren().add(viewAllAnchor);
+        viewAllAnchor.prefWidthProperty().bind(stackPane.widthProperty());
+        viewAllAnchor.prefHeightProperty().bind(stackPane.heightProperty());
+
         viewAllList = (TableView) viewAllAnchor.lookup("#viewAllTable");
         updateKeyLists();
         populateTable();
@@ -378,6 +400,9 @@ public class Controller implements Initializable{
 
         stackPane.getChildren().clear();
         stackPane.getChildren().add(viewMoreAnchor);
+
+        viewMoreAnchor.prefWidthProperty().bind(stackPane.widthProperty());
+        viewMoreAnchor.prefHeightProperty().bind(stackPane.heightProperty());
 
         Label idLabel = (Label) viewMoreAnchor.lookup("#idLabel");
         idLabel.setText(String.valueOf(key.getKeyID()));
@@ -488,6 +513,10 @@ public class Controller implements Initializable{
 
         stackPane.getChildren().clear();
         stackPane.getChildren().add(viewHistoryAnchor);
+
+        viewHistoryAnchor.prefWidthProperty().bind(stackPane.widthProperty());
+        viewHistoryAnchor.prefHeightProperty().bind(stackPane.heightProperty());
+
         viewHistoryTable = (TableView) viewHistoryAnchor.lookup("#viewHistoryTable");
         updateKeyLists();
         populateHistoryTable(key);
@@ -496,6 +525,8 @@ public class Controller implements Initializable{
         goBackHistoryButton.setOnMouseClicked(event -> handleViewMoreInformation(current));
 
     }
+
+    //TODO Resizing to back to a smaller size messes up the layouts.
 
     private void populateHistoryTable(Key key){
         TableColumn<Key, Integer> idColumn;

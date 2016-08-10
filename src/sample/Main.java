@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -14,6 +16,7 @@ import java.io.IOException;
 public class Main extends Application {
 
     private Stage primaryStage;
+    private Scene scene;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -30,7 +33,16 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("main_views/main.fxml"));
             Pane mainLayout = loader.load();
-            primaryStage.setScene(new Scene(mainLayout));
+            scene = new Scene(mainLayout);
+
+//            scene.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> {
+//                System.out.println("Width: " + newSceneWidth);
+//            });
+//            scene.heightProperty().addListener((observableValue, oldSceneHeight, newSceneHeight) -> {
+//                System.out.println("Height: " + newSceneHeight);
+//            });
+
+            primaryStage.setScene(scene);
             primaryStage.show();
         }
         catch (IOException e){
