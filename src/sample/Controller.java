@@ -1,8 +1,10 @@
 package sample;
 
+import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,8 +23,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Created by Ese Emore (08/2016)
@@ -235,7 +236,7 @@ public class Controller implements Initializable{
     }
 
     @FXML public void handleCheckOutSubmitButtonAction(){
-        ComboBox<Key> takeKeyComboBox = (ComboBox) checkOutSubmit.getScene().lookup("#takeKeyComboBox");
+        ComboBox<String> takeKeyComboBox = (ComboBox) checkOutSubmit.getScene().lookup("#takeKeyComboBox");
         TextField firstName = (TextField) checkOutSubmit.getScene().lookup("#firstNameText");
         TextField lastName = (TextField) checkOutSubmit.getScene().lookup("#lastNameText");
         TextField contactNumber = (TextField) checkOutSubmit.getScene().lookup("#contactText");
@@ -247,9 +248,12 @@ public class Controller implements Initializable{
 
         });
 
-        if(!takeKeyComboBox.getSelectionModel().isEmpty() && takeKeyComboBox.getSelectionModel()!=null && !firstName.getText().isEmpty() &&
+        if(!takeKeyComboBox.getValue().isEmpty() && takeKeyComboBox.getValue()!=null && !firstName.getText().isEmpty() &&
                 firstName.getText()!=null && !lastName.getText().isEmpty() && lastName.getText()!=null &&
                 !contactNumber.getText().isEmpty() && contactNumber.getText()!=null){
+//        if(!takeKeyComboBox.getSelectionModel().isEmpty() && takeKeyComboBox.getSelectionModel()!=null && !firstName.getText().isEmpty() &&
+//                firstName.getText()!=null && !lastName.getText().isEmpty() && lastName.getText()!=null &&
+//                !contactNumber.getText().isEmpty() && contactNumber.getText()!=null){
 
 
             //TODO - Submit should not accept if there is any punctuation
@@ -272,16 +276,39 @@ public class Controller implements Initializable{
             else {
                 String name = firstName.getText() + " " + lastName.getText();
                 String number = contactNumber.getText();
-                for (Key key : keyList) {
-                    if (takeKeyComboBox.getSelectionModel().getSelectedItem().getKeyID() == key.getKeyID()) {
-                        key.borrowKey(name, number, date.getValue().toString());
-                        key.toggleAvailability();
-                        db.checkOutKey(key);
-//                    key.setUnavailable();
-                    }
+                if (!takeKeyComboBox.getValue().matches("[0-9](.*)")){
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Warning Dialog");
+                        alert.setHeaderText("Invalid information entered");
+                        alert.setContentText("Please check the information entered or select from the predetermined list.");
+                        alert.showAndWait();
                 }
-                checkOutSubmit.setVisible(false);
-                thanksLabel.setVisible(true);
+                for (Key key : keyList) {
+//                    if (takeKeyComboBox.getSelectionModel().getSelectedItem().getKeyID() == key.getKeyID()) {
+                    if(takeKeyComboBox.getValue().matches("[0-9](.*)")){ //TODO what about if the room name or description has numbers in it?
+//                        if(Integer.parseInt(takeKeyComboBox.getValue())==key.getKeyID() && key.isAvailable().equals("Yes")) {
+                        if(takeKeyComboBox.getValue().matches(key.getKeyID()+"(.*)") && key.isAvailable().equals("Yes")) {
+                            key.borrowKey(name, number, date.getValue().toString());
+                            key.toggleAvailability();
+                            db.checkOutKey(key);
+                            checkOutSubmit.setVisible(false);
+                            thanksLabel.setVisible(true);
+//                    key.setUnavailable();
+                        }
+//                        else if(Integer.parseInt(takeKeyComboBox.getValue())==key.getKeyID() && key.isAvailable().equals("No")){
+                        else if(takeKeyComboBox.getValue().matches(key.getKeyID()+"(.*)") && key.isAvailable().equals("No")){
+                            Alert alert = new Alert(Alert.AlertType.WARNING);
+                            alert.setTitle("Warning Dialog");
+                            alert.setHeaderText("Invalid information entered");
+                            alert.setContentText("This key has already been checked out. Please choose another key.");
+                            alert.showAndWait();
+                        }
+                    }
+//                    else if(takeKeyComboBox.getValue().equals(key.getKeyRoomName())){
+//
+//                    }
+//
+                }
             }
         }
         else{
@@ -329,9 +356,14 @@ public class Controller implements Initializable{
         checkoutAnchor.prefWidthProperty().bind(stackPane.widthProperty());
         checkoutAnchor.prefHeightProperty().bind(stackPane.heightProperty());
 
-        ComboBox<Key> takeKeyComboBox = (ComboBox) checkoutAnchor.lookup("#takeKeyComboBox");
+        ComboBox<String> takeKeyComboBox = (ComboBox) checkoutAnchor.lookup("#takeKeyComboBox");
         updateKeyLists();
-        takeKeyComboBox.setItems(availableKeyList);
+        ArrayList<String> keyString = new ArrayList<>();
+        for(Key key: availableKeyList){
+            keyString.add(key.toString());
+        }
+//        takeKeyComboBox.setItems(availableKeyList);
+        takeKeyComboBox.getItems().addAll(keyString);
         DatePicker date = (DatePicker) checkoutAnchor.lookup("#datePicker");
         date.setValue(LocalDate.now());
     }
