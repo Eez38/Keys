@@ -4,9 +4,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="viewAllAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="495.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane fx:id="viewAllAnchor" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="444.0" prefWidth="495.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <TableView fx:id="viewAllTable" prefHeight="444.0" prefWidth="495.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" StackPane.alignment="CENTER">
+      <TableView fx:id="viewAllTable" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="495.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" StackPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="idColumn" minWidth="15.0" prefWidth="99.0" text="Key ID" />
             <TableColumn fx:id="roomNameColumn" prefWidth="99.0" text="Room Name" />

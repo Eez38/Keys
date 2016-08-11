@@ -14,17 +14,22 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by Ese Emore (08/2016)
@@ -50,6 +55,10 @@ public class Controller implements Initializable{
     @FXML private TableView<Key> viewAllList;
     @FXML private TableView<Key> viewHistoryTable;
 
+    private ObservableList<String> keyString = FXCollections.observableArrayList();
+    private String filter = "";
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 //        punctuation = ".(_+-.,!@#$%^&*();\\/|<>\"')";
@@ -74,6 +83,7 @@ public class Controller implements Initializable{
                 availableKeyList.add(key);
             }
         }
+        keyString.addAll(availableKeyList.stream().map(Key::toString).collect(Collectors.toList()));
     }
 
     @FXML public void handleMenuCreate(){
@@ -95,6 +105,10 @@ public class Controller implements Initializable{
         quantity.setText(String.valueOf(1));
         TextField roomName = (TextField) scene.lookup("#RoomNameText");
         roomName.requestFocus();
+
+        submitKey = (Button) scene.lookup("#submitKey");
+        submitKey.defaultButtonProperty().bind(submitKey.focusedProperty());
+
         popUpStage.setTitle("Create Key");
         popUpStage.setScene(scene);
         popUpStage.show();
@@ -117,6 +131,9 @@ public class Controller implements Initializable{
         ChoiceBox<Key> keyIDChoice = (ChoiceBox) scene.lookup("#keyIDChoice");
         keyIDChoice.setItems(keyList);
         keyIDChoice.setVisible(true);
+
+        submitKey = (Button) scene.lookup("#submitKey");
+        submitKey.defaultButtonProperty().bind(submitKey.focusedProperty());
 
         //Fill in Key information once it is selected from the combo box list
         TextField name = (TextField) scene.lookup("#RoomNameText");
@@ -270,11 +287,6 @@ public class Controller implements Initializable{
         DatePicker date = (DatePicker) checkOutSubmit.getScene().lookup("#datePicker");
         Label thanksLabel = (Label) checkOutSubmit.getScene().lookup("#thanksLabel");
 
-
-        takeKeyComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-
-        });
-
         if(!takeKeyComboBox.getValue().isEmpty() && takeKeyComboBox.getValue()!=null && !firstName.getText().isEmpty() &&
                 firstName.getText()!=null && !lastName.getText().isEmpty() && lastName.getText()!=null &&
                 !contactNumber.getText().isEmpty() && contactNumber.getText()!=null){
@@ -385,10 +397,6 @@ public class Controller implements Initializable{
 
         ComboBox<String> takeKeyComboBox = (ComboBox) checkoutAnchor.lookup("#takeKeyComboBox");
         updateKeyLists();
-        ArrayList<String> keyString = new ArrayList<>();
-        for(Key key: availableKeyList){
-            keyString.add(key.toString());
-        }
 //        takeKeyComboBox.setItems(availableKeyList);
         takeKeyComboBox.getItems().addAll(keyString);
         DatePicker date = (DatePicker) checkoutAnchor.lookup("#datePicker");
@@ -409,7 +417,6 @@ public class Controller implements Initializable{
         stackPane.getChildren().add(viewAllAnchor);
         viewAllAnchor.prefWidthProperty().bind(stackPane.widthProperty());
         viewAllAnchor.prefHeightProperty().bind(stackPane.heightProperty());
-
         viewAllList = (TableView) viewAllAnchor.lookup("#viewAllTable");
         updateKeyLists();
         populateTable();
@@ -585,8 +592,6 @@ public class Controller implements Initializable{
 
     }
 
-    //TODO Resizing to back to a smaller size messes up the layouts.
-
     private void populateHistoryTable(Key key){
         TableColumn<Key, Integer> idColumn;
         TableColumn<Key, String> contactNameColumn;
@@ -619,5 +624,33 @@ public class Controller implements Initializable{
         }
         viewHistoryTable.setItems(historyList);
     }
+
+    public void handleComboKeyTyped(KeyEvent event){
+        ComboBox<String> takeKeyComboBox = (ComboBox) ((Node)(event.getSource())).getScene().lookup("#takeKeyComboBox");
+        ObservableList<String> filteredList = FXCollections.observableArrayList();
+        KeyCode code = event.getCode();
+
+        if (code.isLetterKey()) {
+            filter += event.getText();
+        }
+        if (code == KeyCode.BACK_SPACE && filter.length() > 0) {
+            filter = filter.substring(0, filter.length() - 1);
+            takeKeyComboBox.getItems().setAll(keyString);
+        }
+        if (code == KeyCode.ESCAPE) {
+            filter = "";
+        }
+        if (filter.length() == 0) {
+            filteredList = keyString;
+        }
+        else {
+            Stream<String> items = takeKeyComboBox.getItems().stream();
+            String entry = filter.toString().toLowerCase();
+            items.filter(el -> el.toString().toLowerCase().contains(entry)).forEach(filteredList::add);
+            takeKeyComboBox.show();
+        }
+        takeKeyComboBox.getItems().setAll(filteredList);
+    }
+
 
 }
