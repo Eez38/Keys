@@ -288,8 +288,11 @@ public class Controller implements Initializable{
         Label thanksLabel = (Label) checkOutSubmit.getScene().lookup("#thanksLabel");
 
         if(!takeKeyComboBox.getValue().isEmpty() && takeKeyComboBox.getValue()!=null && !firstName.getText().isEmpty() &&
-                firstName.getText()!=null && !lastName.getText().isEmpty() && lastName.getText()!=null &&
+                firstName.getText()!=null &&
                 !contactNumber.getText().isEmpty() && contactNumber.getText()!=null){
+
+//            !lastName.getText().isEmpty() && lastName.getText()!=null &&
+
 //        if(!takeKeyComboBox.getSelectionModel().isEmpty() && takeKeyComboBox.getSelectionModel()!=null && !firstName.getText().isEmpty() &&
 //                firstName.getText()!=null && !lastName.getText().isEmpty() && lastName.getText()!=null &&
 //                !contactNumber.getText().isEmpty() && contactNumber.getText()!=null){
@@ -322,11 +325,13 @@ public class Controller implements Initializable{
                         alert.setContentText("Please check the information entered or select from the predetermined list.");
                         alert.showAndWait();
                 }
+                int id = Integer.parseInt(takeKeyComboBox.getValue().split(" - ")[0]);
                 for (Key key : keyList) {
 //                    if (takeKeyComboBox.getSelectionModel().getSelectedItem().getKeyID() == key.getKeyID()) {
-                    if(takeKeyComboBox.getValue().matches("[0-9](.*)")){ //TODO what about if the room name or description has numbers in it?
+//                    if(takeKeyComboBox.getValue().matches("\\d+")){
+//                    if(takeKeyComboBox.getValue().matches("[1-9][0-9](.*)")){ //TODO what about if the room name or description has numbers in it?
 //                        if(Integer.parseInt(takeKeyComboBox.getValue())==key.getKeyID() && key.isAvailable().equals("Yes")) {
-                        if(takeKeyComboBox.getValue().matches(key.getKeyID()+"(.*)") && key.isAvailable().equals("Yes")) {
+                        if(id == key.getKeyID() && key.isAvailable().equals("Yes")) {
                             key.borrowKey(name, number, date.getValue().toString());
                             key.toggleAvailability();
                             db.checkOutKey(key);
@@ -342,7 +347,7 @@ public class Controller implements Initializable{
                             alert.setContentText("This key has already been checked out. Please choose another key.");
                             alert.showAndWait();
                         }
-                    }
+//                    }
 //                    else if(takeKeyComboBox.getValue().equals(key.getKeyRoomName())){
 //
 //                    }
@@ -561,6 +566,8 @@ public class Controller implements Initializable{
         handleViewAllButtonAction();
     }
 
+
+    //TODO history table changes dates
     @FXML public void handleViewHistoryAction(Key key){
         Key current = new Key(key.getKeyID(), key.getKeyRoomName());
         current.setKeyRoomDescription(key.getKeyRoomDescription());

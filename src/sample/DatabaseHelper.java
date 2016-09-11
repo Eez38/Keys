@@ -33,7 +33,6 @@ public class DatabaseHelper {
         return connection;
     }
 
-    //TODO Implement another table to hold history log for keys
     public void initialiseTables(){
         try{
             Statement statement = getConnection().createStatement();
@@ -69,20 +68,6 @@ public class DatabaseHelper {
                     "VALUES (" + key.getKeyID() + ", '" + key.getKeyRoomName() +
                     "', '" + key.getKeyRoomDescription() + "', 'Yes', '" + key.getQuantity() + "' );";
             statement.executeUpdate(addKey);
-            statement.close();
-        }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void addHistoryToDatabase(Key key){
-        try{
-            Statement statement = getConnection().createStatement();
-            String addHistory = "INSERT INTO HISTORY (ID,CURRENT_HOLDER_NAME,CURRENT_HOLDER_NUMBER,DATE_TAKEN,DATE_RETURNED) " +
-                    "VALUES (" + key.getKeyID() + ", '" + key.getCurrentHolderName() +
-                    "', '" + key.getCurrentHolderNumber() + "', '" + key.getDateTaken() + "', '" + key.getDateReturned() + "' );";
-            statement.executeUpdate(addHistory);
             statement.close();
         }
         catch (SQLException e){
@@ -145,6 +130,8 @@ public class DatabaseHelper {
             e.printStackTrace();
         }
     }
+
+    //TODO History table changes dates when keys are added to it.
 
     public Key getKey(int keyID){
         Key key = null;
@@ -217,12 +204,11 @@ public class DatabaseHelper {
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM HISTORY WHERE ID = " + key.getKeyID() + ";");
             while (resultSet.next()){
-                Key k = key;
                 if(resultSet.getString("current_holder_name")!=null && resultSet.getString("date_taken")!=null) {
-                    k.borrowKey(resultSet.getString("current_holder_name"), resultSet.getString("current_holder_number"), resultSet.getString("date_taken"));
-                    k.setDateReturned(resultSet.getString("date_returned"));
+                    key.borrowKey(resultSet.getString("current_holder_name"), resultSet.getString("current_holder_number"), resultSet.getString("date_taken"));
+                    key.setDateReturned(resultSet.getString("date_returned"));
                 }
-                historyList.add(k);
+                historyList.add(key);
             }
             resultSet.close();
             statement.close();
